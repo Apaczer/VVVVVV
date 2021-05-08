@@ -40,10 +40,11 @@ void FILESYSTEM_init(char *argvZero)
 	PHYSFS_init(argvZero);
 
 	/* Determine the OS user directory */
-	PLATFORM_getOSDirectory(output);
+	//PLATFORM_getOSDirectory(output);
+	strcpy(output, "./");
 
 	/* Create base user directory, mount */
-	mkdirResult = mkdir(output, 0777);
+	//mkdirResult = mkdir(output, 0777);
 
 	/* Mount our base user directory */
 	PHYSFS_mount(output, NULL, 1);
@@ -74,7 +75,8 @@ void FILESYSTEM_init(char *argvZero)
 	strcpy(output, PHYSFS_getBaseDir());
 	strcat(output, "data.zip");
 #else
-  PLATFORM_getOSDirectory(output);
+	//PLATFORM_getOSDirectory(output);
+	strcpy(output, "./");
 	strcat(output, "data.zip");
 #endif
 	if (!PHYSFS_mount(output, NULL, 1))
@@ -181,13 +183,8 @@ void PLATFORM_migrateSaveData(char* output)
 	DIR *subDir = NULL;
 	struct dirent *subDe = NULL;
 	char subDirLocation[MAX_PATH];
-	const char *homeDir = getenv("HOME");
-	if (homeDir == NULL)
-	{
-		/* Uhh, I don't want to get near this. -flibit */
-		return;
-	}
-	strcpy(oldDirectory, homeDir);
+
+	strcpy(oldDirectory, ".");
 #if defined(__linux__)
 	strcat(oldDirectory, "/.vvvvvv/");
 #elif defined(__APPLE__)

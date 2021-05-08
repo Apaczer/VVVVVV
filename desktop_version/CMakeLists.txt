@@ -108,4 +108,4 @@ TARGET_LINK_LIBRARIES(vvvvvv physfs-static tinyxml-static lodepng-static)
 
 ADD_DEFINITIONS(-D_GNU_SOURCE=1 -D_REENTRANT)
 
-target_link_libraries(vvvvvv SDL SDL_mixer SDL_sound pthread)
+target_link_libraries(vvvvvv SDL SDL_mixer SDL_sound pthread asound mikmod mpg123 vorbisfile vorbis ogg)
