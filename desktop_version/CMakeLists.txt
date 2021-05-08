@@ -103,12 +103,9 @@ ADD_LIBRARY(lodepng-static STATIC ${PNG_SRC})
 set(OPTIMIZATIONS -O3 -flto -fomit-frame-pointer -fexpensive-optimizations -march=armv7-a -mtune=cortex-a7 -mfpu=neon -mfloat-abi=hard -ffast-math -funsafe-math-optimizations -mvectorize-with-neon-quad -ftree-vectorize)
 target_compile_options(vvvvvv PUBLIC "$<$<CONFIG:RELEASE>:${OPTIMIZATIONS}>")
 
-
 # Static Dependencies
 TARGET_LINK_LIBRARIES(vvvvvv physfs-static tinyxml-static lodepng-static)
 
-LINK_DIRECTORIES(/home/jack/Desktop/dev/FunKey-OS/SDK/output/host/arm-funkey-linux-musleabihf/sysroot/usr/bin/../../usr/lib)
-INCLUDE_DIRECTORIES(/home/jack/Desktop/dev/FunKey-OS/SDK/output/host/arm-funkey-linux-musleabihf/sysroot/usr/bin/../../usr/include/SDL)
 ADD_DEFINITIONS(-D_GNU_SOURCE=1 -D_REENTRANT)
 
 target_link_libraries(vvvvvv SDL SDL_mixer SDL_sound pthread)

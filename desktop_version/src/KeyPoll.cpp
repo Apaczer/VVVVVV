@@ -85,11 +85,6 @@ void KeyPoll::Poll()
 		}
 		else if (evt.type == SDL_KEYUP)
 		{
-      if (evt.key.keysym.sym == SDLK_h)
-      {
-        screen->nextScaleMode();
-      }
-      
       keymap[evt.key.keysym.sym] = false;
 			if (evt.key.keysym.sym == SDLK_BACKSPACE)
 			{
