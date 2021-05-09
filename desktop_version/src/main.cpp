@@ -488,9 +488,9 @@ int main(int argc, char *argv[])
         }
 
         //Mute button
-        if (key.isDown(KEYBOARD_m) && game.mutebutton<=0 && !ed.textentry)
+        if (key.isDown(KEYBOARD_m) /*&& game.mutebutton<=0 && !ed.textentry*/)
         {
-            game.mutebutton = 8;
+            /*game.mutebutton = 8;
             if (game.muted)
             {
                 game.muted = false;
@@ -498,7 +498,8 @@ int main(int argc, char *argv[])
             else
             {
                 game.muted = true;
-            }
+            }*/
+            key.quitProgram = true;
         }
         if(game.mutebutton>0)
         {

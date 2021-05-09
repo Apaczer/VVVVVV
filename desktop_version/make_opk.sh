@@ -1,29 +1,33 @@
 #!/bin/sh
 
-OPK_NAME=vvvvvv.opk
+mkdir -p opk
+cp ./vvv_sdl12.elf opk/vvv_sdl12.elf
+cp ./vvvvvv.png opk/icon.png
+cp ./data.zip opk/data.zip
 
-echo ${OPK_NAME}
+# https://unix.stackexchange.com/questions/219268/how-to-add-new-lines-when-using-echo
+print()
+	case    ${IFS- } in
+	(\ *)   printf  %b\\n "$*";;
+	(*)     IFS=\ $IFS
+	printf  %b\\n "$*"
+	IFS=${IFS#?}
+esac
 
-# create default.gcw0.desktop
-cat > default.funkey-s.desktop <<EOF
-[Desktop Entry]
+# Create GmenuNx entry file plus other things
+
+print '[Desktop Entry]
+Type=Application
 Name=VVVVVV
-Comment=2D puzzle platformer created by Terry Cavanagh
-Exec=vvvvvv.x86
+Comment=Needs data.zip in /usr/local/home/.vvvvvv
+Exec=vvv_sdl12.elf
+Icon=icon
 Terminal=false
 Type=Application
-StartupNotify=true
-Icon=vvvvvv
 Categories=games;
-EOF
+X-OD-NeedsDownscaling=true
+' > opk/default."$1".desktop
 
-# create opk
-FLIST="build/vvvvvv.x86"
-FLIST="${FLIST} default.funkey-s.desktop"
-FLIST="${FLIST} vvvvvv.png"
+mksquashfs ./opk vvvvvv_"$1".opk -all-root -noappend -no-exports -no-xattrs
 
-rm -f ${OPK_NAME}
-mksquashfs ${FLIST} ${OPK_NAME} -all-root -no-xattrs -noappend -no-exports
-
-cat default.funkey-s.desktop
-rm -f default.funkey-s.desktop
+rm -r opk

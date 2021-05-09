@@ -41,8 +41,10 @@ void FILESYSTEM_init(char *argvZero)
 
 	/* Determine the OS user directory */
 	//PLATFORM_getOSDirectory(output);
-	strcpy(output, "./");
-
+	//strcpy(output, "./");
+	
+	snprintf(output, sizeof(output), "%s/.vvvvvv", getenv("HOME"));
+	mkdir(output, 0755);
 	/* Create base user directory, mount */
 	//mkdirResult = mkdir(output, 0777);
 
@@ -52,14 +54,14 @@ void FILESYSTEM_init(char *argvZero)
 
 	/* Create save directory */
 	strcpy(saveDir, output);
-	strcat(saveDir, "saves");
+	strcat(saveDir, "/saves");
 	strcat(saveDir, PHYSFS_getDirSeparator());
 	mkdir(saveDir, 0777);
 	printf("Save directory: %s\n", saveDir);
 
 	/* Create level directory */
 	strcpy(levelDir, output);
-	strcat(levelDir, "levels");
+	strcat(levelDir, "/levels");
 	strcat(levelDir, PHYSFS_getDirSeparator());
 	mkdirResult |= mkdir(levelDir, 0777);
 	printf("Level directory: %s\n", levelDir);
@@ -74,16 +76,25 @@ void FILESYSTEM_init(char *argvZero)
 #ifdef _WIN32
 	strcpy(output, PHYSFS_getBaseDir());
 	strcat(output, "data.zip");
-#else
-	//PLATFORM_getOSDirectory(output);
-	strcpy(output, "./");
-	strcat(output, "data.zip");
-#endif
 	if (!PHYSFS_mount(output, NULL, 1))
 	{
     printf("data.zip is missing! Place it in %s\n", output);
     abort();
 	}
+#else
+	snprintf(output, sizeof(output), "%s/.vvvvvv/data.zip", getenv("HOME"));
+	if (!PHYSFS_mount(output, NULL, 1))
+	{
+		printf("data.zip is missing! Place it in %s\n", output);
+		//PLATFORM_getOSDirectory(output);
+		snprintf(output, sizeof(output), "./data.zip");
+		if (!PHYSFS_mount(output, NULL, 1))
+		{
+			printf("data.zip is missing! Place it in %s\n", output);
+			abort();
+		}
+	}
+#endif
 }
 
 void FILESYSTEM_deinit()
