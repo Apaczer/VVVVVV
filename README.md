@@ -1,6 +1,6 @@
 Info
 ----
-This is the FunKey-S port of VVVVVV. SDL has been downgraded to SDL1.2 so this version could be used to port the game to other platform which doesn't support SDL2.0.
+This is the Bittboy port of VVVVVV, based on the FunKey-S SDL 1.2 port. It does not work in the current state, so I do not publish a binary package.
 
 License
 -------
