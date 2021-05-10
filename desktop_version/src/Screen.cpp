@@ -5,6 +5,11 @@
 
 #include <stdlib.h>
 
+#ifdef RETROFW
+SDL_Surface* r_hw_screen;
+#endif
+
+
 // Used to create the window icon
 extern "C"
 {
@@ -29,8 +34,12 @@ Screen::Screen()
     filterSubrect.w = 318;
     filterSubrect.h = 238;
 
+#ifdef RETROFW
+    r_hw_screen = SDL_SetVideoMode(320, 240, 16, SDL_DOUBLEBUF | SDL_HWSURFACE);
+    hw_screen = SDL_CreateRGBSurface(SDL_HWSURFACE, 320, 240, 32, 0,0,0,0);
+#else
     hw_screen = SDL_SetVideoMode(320, 240, 32, SDL_DOUBLEBUF | SDL_HWSURFACE);
-
+#endif
 	m_screen = hw_screen;
 
     badSignalEffect = false;
@@ -93,7 +102,12 @@ void Screen::FlipScreen()
 {
 	SDL_Rect src = { 0, 0, 320, 240 };
 	BlitSurfaceStandard(m_screen, &src, hw_screen, NULL);
+#ifdef RETROFW
+	SDL_BlitSurface(hw_screen, NULL, r_hw_screen, NULL);
+	SDL_Flip(r_hw_screen);
+#else
 	SDL_Flip(hw_screen);
+#endif
 }
 
 void Screen::toggleFullScreen()
