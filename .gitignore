@@ -1,2 +1,5 @@
 desktop_version/build/**
 *.opk
+*.o
+data.zip
+vvvvvv
